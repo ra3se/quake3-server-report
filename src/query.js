@@ -1,24 +1,24 @@
-const Gamedig = require('gamedig');
+const Gamedig = require("gamedig");
 
 module.exports = function(type, host, port) {
-    let cache;
-    let last;
+	let cache;
+	let last;
 
-    return new Promise(function(resolve, reject) {
-        if (last && cache && (Date.now() - last) < 10e3) {
-            return resolve(cache);
-        };
+	return new Promise(function(resolve, reject) {
+		if (last && cache && (Date.now() - last) < 10e3) {
+			return resolve(cache);
+		}
 
-        Gamedig.query({
-            type: type,
-            host: host,
-            port: port,
-        }, function(err, state) {
-            if (err) { return reject(err) };
+		Gamedig.query({
+			type: type,
+			host: host,
+			port: port,
+		}, function(err, state) {
+			if (err) { return reject(err) }
 
-            last = Date.now();
-            cache = state;
-            return resolve(state);
-        });
-    });
+			last = Date.now();
+			cache = state;
+			return resolve(state);
+		});
+	});
 }
