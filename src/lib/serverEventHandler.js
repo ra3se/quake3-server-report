@@ -60,7 +60,6 @@ const eventHandlers = Object.keys(events).map((key) => {
 
 	return function(line) {
 		if (evtRegExp.test(line)) {
-			console.log(line, evtRegExp)
 			return {event: key, data: parser(line.match(evtRegExp).slice(1))};
 		}
 	}
