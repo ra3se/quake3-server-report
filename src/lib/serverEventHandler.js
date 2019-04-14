@@ -1,5 +1,5 @@
 const worldDamage = require("./world").reduce((result, val, index) =>
-	result += `${(index > 0 ? "|" : "")}MOD_(${val})`,"");
+	result += `${(index > 0 ? "|" : "")}${val}`,"");
 
 function parseDataString(data) {
 	const result = {};
@@ -36,15 +36,15 @@ const events = {
 		parser: ([playerIndex, data]) =>
 			Object.assign({playerIndex}, parseDataString(data)),
 	},
+	death: {
+		regExp: `Kill: (\\d+) (\\d+) (\\d+) \\d+: <world> killed (.+) by MOD_(${worldDamage})`,
+		parser: ([playerIndex, victimIndex, worldDmgIndex, victim, damage]) =>
+			({playerIndex, victimIndex, worldDmgIndex, victim, damage}),
+	},
 	kill: {
 		regExp: "Kill: (\\d+) (\\d+) (\\d+) \\d+: (.+) killed (.+) by MOD_([A-Z_]+)",
 		parser: ([playerIndex, victimIndex, weaponIndex, killer, victim, weapon]) =>
 			({playerIndex, victimIndex, weaponIndex, killer, victim, weapon}),
-	},
-	killed: {
-		regExp: `Kill: (\\d+) (\\d+) (\\d+) \\d+: <world> killed (.+) by ${worldDamage}`,
-		parser: ([playerIndex, victimIndex, worldDmgIndex, victim, damage]) =>
-			({playerIndex, victimIndex, worldDmgIndex, victim, damage}),
 	},
 	message: {
 		regExp: "say: (\\d+) \\d+: ([^:]+): (.+)",
@@ -60,6 +60,7 @@ const eventHandlers = Object.keys(events).map((key) => {
 
 	return function(line) {
 		if (evtRegExp.test(line)) {
+			console.log(line, evtRegExp)
 			return {event: key, data: parser(line.match(evtRegExp).slice(1))};
 		}
 	}
