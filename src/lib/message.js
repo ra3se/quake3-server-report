@@ -41,6 +41,14 @@ const {
 	MOD_KAMIKAZE
 } = require('./constant/weapon-dmg');
 
+/**
+ * Return message parts when player dies
+ * @param {string} mod - Damage modifier
+ * @param {int} attacker - Entity ID who initiated damage
+ * @param {int} target - Entity ID who falls victim of damage
+ * @param {string} gender - Entity gender
+ * @returns {array} Array of message parts
+ */
 module.exports = (mod, attacker, target, gender) => {
 	let message = null;
 	let message2 = null;
