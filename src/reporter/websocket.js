@@ -1,22 +1,25 @@
-const WebSocket = require("ws")
+const WebSocket = require('ws');
+
 /**
  * Responsible for sending and reciving websocket information.
+ * @param {EventEmitter} serverEvents - Incoming server events
+ * @param {any} config - Websocket configuration
  */
-module.exports = (serverEvents, port) => {
-	const wss = new WebSocket.Server({port: port})
+module.exports = (serverEvents, {port}) => {
+	const wss = new WebSocket.Server({port});
 
-	wss.broadcast = function broadcast(data) {
-		wss.clients.forEach(function each(client) {
+	wss.broadcast = function (data) {
+		wss.clients.forEach(client => {
 			if (client.readyState === WebSocket.OPEN) {
-				client.send(JSON.stringify(data))
+				client.send(JSON.stringify(data));
 			}
-		})
-	}
+		});
+	};
 
-	wss.on("connection", function connection(ws, req) {
-		const ip = req.connection.remoteAddress
-		console.log("websocket client connected", ip)
-	})
+	wss.on('connection', (ws, req) => {
+		const ip = req.connection.remoteAddress;
+		console.log('websocket client connected', ip);
+	});
 
-	serverEvents.on("any", wss.broadcast)
-}
+	serverEvents.on('any', wss.broadcast);
+};
