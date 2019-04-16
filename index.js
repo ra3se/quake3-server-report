@@ -1,11 +1,14 @@
-const config = require('./config');
-
+const fs = require('fs');
+const path = require('path');
 const query = require('./src/query');
 const stdin = require('./src/stdin');
 
 const discord = require('./src/reporter/discord');
 const print = require('./src/reporter/print');
 const websocket = require('./src/reporter/websocket');
+
+const config = JSON.parse(
+	fs.readFileSync(path.resolve(__dirname, 'config.json'), {encoding: 'utf8'}));
 
 // Gather events from stdin
 const serverEvents = stdin();
@@ -14,12 +17,10 @@ const serverEvents = stdin();
 print(serverEvents, console.log);
 
 // Start websocket server
-websocket(serverEvents, config.websocket_port);
+websocket(serverEvents, config.websocket);
 
 // Start discord client
 if (!config.debug) {
-	discord(config.discord_token,
-		config.discord_hook_id,
-		config.discord_hook_token,
-		query, serverEvents);
+	discord(config.discord,
+		query(config.server), serverEvents);
 }
