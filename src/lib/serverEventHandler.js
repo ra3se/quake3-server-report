@@ -1,5 +1,5 @@
-const worldDamage = require("./world").reduce((result, val, index) =>
-	result += `${(index > 0 ? "|" : "")}${val}`,"");
+const message = require("./message")
+const {GENDER_NEUTER} = require("./constant/gender")
 
 function parseDataString(data) {
 	const result = {};
@@ -36,15 +36,11 @@ const events = {
 		parser: ([playerIndex, data]) =>
 			Object.assign({playerIndex}, parseDataString(data)),
 	},
-	death: {
-		regExp: `Kill: (\\d+) (\\d+) (\\d+) \\d+: <world> killed (.+) by MOD_(${worldDamage})`,
-		parser: ([playerIndex, victimIndex, worldDmgIndex, victim, damage]) =>
-			({playerIndex, victimIndex, worldDmgIndex, victim, damage}),
-	},
 	kill: {
-		regExp: "Kill: (\\d+) (\\d+) (\\d+) \\d+: (.+) killed (.+) by MOD_([A-Z_]+)",
-		parser: ([playerIndex, victimIndex, weaponIndex, killer, victim, weapon]) =>
-			({playerIndex, victimIndex, weaponIndex, killer, victim, weapon}),
+		regExp: "Kill: (\\d+) (\\d+) (\\d+) \\d+: (.+) killed (.+) by ([A-Z_]+)",
+		parser: ([attackerIndex, targetIndex, modIndex, attacker, target, mod]) =>
+			({attackerIndex, targetIndex, modIndex, attacker, target, mod,
+				messageParts: message(mod, attacker, target, GENDER_NEUTER)}),
 	},
 	message: {
 		regExp: "say: (\\d+) \\d+: ([^:]+): (.+)",

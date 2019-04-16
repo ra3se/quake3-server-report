@@ -1,4 +1,4 @@
-const ENTITYNUM_WORLD = "ENTITYNUM_WORLD";
+const WORLD = "<world>";
 
 const {
 	MOD_SUICIDE,
@@ -9,12 +9,12 @@ const {
 	MOD_LAVA,
 	MOD_TARGET_LASER,
 	MOD_TRIGGER_HURT
-} = require("./globals/worldDmg")
+} = require("./constant/worldDmg")
 
 const {
 	GENDER_FEMALE,
 	GENDER_NEUTER
-} = require("./globals/gender")
+} = require("./constant/gender")
 
 const {
 	MOD_GRAPPLE,
@@ -37,7 +37,7 @@ const {
 	MOD_JUICED,
 	MOD_TELEFRAG,
 	MOD_KAMIKAZE
-} = require("./globals/weaponDmg")
+} = require("./constant/weaponDmg")
 
 module.exports = (mod, attacker, target, gender) => {
 	let message = null
@@ -126,10 +126,10 @@ module.exports = (mod, attacker, target, gender) => {
 	}
 
 	if (message) {
-		return `${target} ${message}`
+		return [target, message]
 	}
 
-	if (attacker != ENTITYNUM_WORLD) {
+	if (attacker != WORLD) {
 		switch (mod) {
 			case MOD_GRAPPLE:
 				message = "was caught by"
@@ -207,7 +207,7 @@ module.exports = (mod, attacker, target, gender) => {
 	}
 
 	if (message) {
-		return `${target} ${message} ${attacker} ${message2 || ""}`
+		return message2 ? [target, message, attacker, message2] : [target, message, attacker]
 	}
 
 	return ""

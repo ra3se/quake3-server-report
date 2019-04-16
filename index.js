@@ -1,25 +1,25 @@
-const config = require("./config");
+const config = require("./config")
 
-const query = require("./src/query");
-const discord = require("./src/discord");
-const stdin = require("./src/stdin");
-const websocket = require("./src/websocket");
+const query = require("./src/query")
+const stdin = require("./src/stdin")
 
-function queryServer() {
-	return query(config.server_type,
-		config.server_host,
-		config.server_port);
-}
+const discord = require("./src/reporter/discord")
+const print = require("./src/reporter/print")
+const websocket = require("./src/reporter/websocket")
 
-const serverEvents = stdin();
+// Gather events from stdin
+const serverEvents = stdin()
 
-// start websocket server
-websocket(serverEvents);
+// Print events to terminal
+print(serverEvents, console.log)
 
-// start discord client
+// Start websocket server
+websocket(serverEvents, config.websocket_port)
+
+// Start discord client
 if (!config.debug) {
 	discord(config.discord_token,
 		config.discord_hook_id,
 		config.discord_hook_token,
-		queryServer, serverEvents);
+		query, serverEvents)
 }

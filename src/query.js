@@ -4,7 +4,7 @@ module.exports = function(type, host, port) {
 	let cache;
 	let last;
 
-	return new Promise(function(resolve, reject) {
+	return () => new Promise(function(resolve, reject) {
 		if (last && cache && (Date.now() - last) < 10e3) {
 			return resolve(cache);
 		}

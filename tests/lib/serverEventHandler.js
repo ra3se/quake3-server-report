@@ -1,5 +1,5 @@
 const o = require("ospec")
-const serverEventHandler = require("../src/lib/serverEventHandler");
+const serverEventHandler = require("../../src/lib/serverEventHandler");
 
 o("unknown", function() {
 	const {event, data} = serverEventHandler("Some random line");
@@ -89,30 +89,35 @@ o("info", function() {
 	})
 })
 
-o("death", function() {
-	const {event, data} = serverEventHandler("Kill: 1022 0 19 2: <world> killed ^1K^7orroz by MOD_FALLING");
+o.spec("kill", function() {
+	o("Player kill", function() {
+		const {event, data} = serverEventHandler("Kill: 1 0 10 4: Shizu killed ^1K^7orroz by MOD_RAILGUN");
 
-	o(event).equals("death")
-	o(data).deepEquals({
-		playerIndex: "1022",
-		victimIndex: "0",
-		worldDmgIndex: "19",
-		victim: "^1K^7orroz",
-		damage: "FALLING"
+		o(event).equals("kill")
+		o(data).deepEquals({
+			attackerIndex: "1",
+			targetIndex: "0",
+			modIndex: "10",
+			attacker: "Shizu",
+			target: "^1K^7orroz",
+			mod: "MOD_RAILGUN",
+			messageParts: ["^1K^7orroz", "was railed by", "Shizu"]
+		})
 	})
-})
 
-o("kill", function() {
-	const {event, data} = serverEventHandler("Kill: 1 0 10 4: Shizu killed ^1K^7orroz by MOD_RAILGUN");
+	o("World death", function() {
+		const {event, data} = serverEventHandler("Kill: 1022 0 19 2: <world> killed ^1K^7orroz by MOD_FALLING");
 
-	o(event).equals("kill")
-	o(data).deepEquals({
-		playerIndex: "1",
-		victimIndex: "0",
-		weaponIndex: "10",
-		killer: "Shizu",
-		victim: "^1K^7orroz",
-		weapon: "RAILGUN"
+		o(event).equals("kill")
+		o(data).deepEquals({
+			attackerIndex: "1022",
+			targetIndex: "0",
+			modIndex: "19",
+			attacker: "<world>",
+			target: "^1K^7orroz",
+			mod: "MOD_FALLING",
+			messageParts: ["^1K^7orroz", "cratered"]
+		})
 	})
 })
 
