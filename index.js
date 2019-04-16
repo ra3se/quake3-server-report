@@ -17,10 +17,12 @@ const serverEvents = stdin();
 print(serverEvents, console.log);
 
 // Start websocket server
-websocket(serverEvents, config.websocket);
+if (config.websocket) {
+	websocket(serverEvents, config.websocket);
+}
 
 // Start discord client
-if (!config.debug) {
+if (config.discord && !config.debug) {
 	discord(config.discord,
 		query(config.server), serverEvents);
 }
