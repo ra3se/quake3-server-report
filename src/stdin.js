@@ -1,5 +1,5 @@
 const EventEmitter = require('events');
-const {inspect} = require('util');
+// Const {inspect} = require('util');
 const es = require('event-stream');
 const serverEventHandler = require('./lib/server-event-handler');
 const state = require('./state');
@@ -11,9 +11,9 @@ module.exports = function () {
 
 	process.stdin
 		.pipe(es.split())
-		.pipe(es.map((line, cb) => {
+		.pipe(es.map(line => {
 			const {event, data} = serverEventHandler(line);
-			cb(null, inspect({event, data}) + '\n');
+			// Cb(null, inspect({event, data}) + '\n');
 			eventEmitter.emit(event, data);
 			eventEmitter.emit('any', {event, data});
 			return null;

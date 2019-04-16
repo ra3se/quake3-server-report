@@ -1,5 +1,10 @@
 const Gamedig = require('gamedig');
 
+/**
+ * Query the game server directly for statistics
+ * @param {any} config - Server configuration
+ * @return {function} - Function that returns a promise
+ */
 module.exports = function ({type, host, port}) {
 	let cache;
 	let last;
