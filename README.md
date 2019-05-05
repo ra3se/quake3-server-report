@@ -3,5 +3,5 @@
 [![dependencies Status](https://david-dm.org/SamuelTilly/quake3-server-bot/status.svg)](https://david-dm.org/SamuelTilly/quake3-server-bot)
 [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/xojs/xo)
 
-# quake3-server-bot
+# quake3-server-report
 quake3-server-bot
