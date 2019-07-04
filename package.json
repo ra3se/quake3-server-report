@@ -1,27 +1,31 @@
 {
-	"name": "quakelog",
-	"version": "1.0.0",
-	"description": "",
-	"main": "index.js",
-	"scripts": {
-		"test": "nyc ospec",
-		"pretest": "npm run lint",
-		"lint": "xo",
-		"lint:fix": "xo --fix"
-	},
-	"author": "",
-	"license": "ISC",
-	"dependencies": {
-		"chalk": "^2.4.2",
-		"discord.js": "^11.4.2",
-		"event-stream": "^4.0.1",
-		"gamedig": "2.0.14",
-		"quake3-rcon": "^0.2.1",
-		"ws": "^6.1.2"
-	},
-	"devDependencies": {
-		"nyc": "^13.3.0",
-		"ospec": "^3.1.0",
-		"xo": "^0.24.0"
-	}
+  "name": "quakelog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "nyc ospec",
+    "pretest": "npm run lint",
+    "lint": "xo",
+    "lint:fix": "xo --fix",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "discord.js": "^11.4.2",
+    "event-stream": "^4.0.1",
+    "gamedig": "2.0.14",
+    "quake3-rcon": "^0.2.1",
+    "ws": "^6.1.2",
+    "snyk": "^1.189.0"
+  },
+  "devDependencies": {
+    "nyc": "^13.3.0",
+    "ospec": "^3.1.0",
+    "xo": "^0.24.0"
+  },
+  "snyk": true
 }
