@@ -7,7 +7,7 @@ const colorMap = [
 	chalk.yellow,		// 3: Yellow.
 	chalk.blue,			// 4: Blue.
 	chalk.cyan,			// 5: Cyan.
-	chalk.magenta,	// 6: Pink.
+	chalk.magenta,	    // 6: Pink.
 	chalk.white			// 7: White.
 ];
 

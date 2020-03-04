@@ -9,23 +9,19 @@ module.exports = function ({type, host, port}) {
 	let cache;
 	let last;
 
-	return () => new Promise(((resolve, reject) => {
+	return () => new Promise((resolve => {
 		if (last && cache && (Date.now() - last) < 10e3) {
 			return resolve(cache);
 		}
 
-		Gamedig.query({
+		return Gamedig.query({
 			type,
 			host,
 			port
-		}, (err, state) => {
-			if (err) {
-				return reject(err);
-			}
-
+		}).then(state => {
 			last = Date.now();
 			cache = state;
-			return resolve(state);
+			return state;
 		});
 	}));
 };

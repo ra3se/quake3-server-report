@@ -14,7 +14,7 @@
 		"chalk": "^2.4.2",
 		"discord.js": "^11.4.2",
 		"event-stream": "^4.0.1",
-		"gamedig": "2.0.14",
+		"gamedig": "^2.0.20",
 		"quake3-rcon": "^0.2.1",
 		"ws": "^6.1.2"
 	},
