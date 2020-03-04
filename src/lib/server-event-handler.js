@@ -63,8 +63,8 @@ const eventHandlers = Object.keys(events).map(key => {
 });
 
 module.exports = line => {
-	for (let index = 0; index < eventHandlers.length; index++) {
-		const result = eventHandlers[index](line);
+	for (const eventHandler of eventHandlers) {
+		const result = eventHandler(line);
 		if (result) {
 			return result;
 		}
