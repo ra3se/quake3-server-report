@@ -1,9 +1,6 @@
 const o = require('ospec');
 const print = require('../../src/reporter/print');
 
-// Function generateMocks () {
-// }
-
 o.spec('print', () => {
 	let logger;
 	let serverEvents;
