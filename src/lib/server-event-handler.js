@@ -50,21 +50,23 @@ const events = {
 	}
 };
 
-const eventHandlers = Object.keys(events).map(key => {
-	const event = events[key];
-	const evtRegExp = new RegExp(event.regExp);
-	const {parser} = event;
+const lineParsers = [];
 
-	return function (line) {
-		if (evtRegExp.test(line)) {
-			return {event: key, data: parser(line.match(evtRegExp).slice(1))};
-		}
-	};
-});
+for (const event in events) {
+	if (Object.prototype.hasOwnProperty.call(events, event)) {
+		const {regExp, parser} = events[event];
+		const evtRegExp = new RegExp(regExp);
+		lineParsers.push(line => {
+			if (evtRegExp.test(line)) {
+				return {event, data: parser(line.match(evtRegExp).slice(1))};
+			}
+		});
+	}
+}
 
 module.exports = line => {
-	for (const eventHandler of eventHandlers) {
-		const result = eventHandler(line);
+	for (const lineParser of lineParsers) {
+		const result = lineParser(line);
 		if (result) {
 			return result;
 		}
