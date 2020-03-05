@@ -53,6 +53,10 @@ module.exports = (mod, attacker, target, gender) => {
 	let message = null;
 	let message2 = null;
 
+	if (target === WORLD) {
+		return []; // No one targets world, silly.
+	}
+
 	switch (mod) {
 		case MOD_SUICIDE:
 			message = 'suicides';
@@ -229,5 +233,5 @@ module.exports = (mod, attacker, target, gender) => {
 		return message2 ? [target, message, attacker, message2] : [target, message, attacker];
 	}
 
-	return '';
+	return [];
 };
