@@ -8,10 +8,14 @@ const prettyPrint = require('../lib/pretty-print');
 module.exports = function (serverEvents, logger) {
 	serverEvents.on('kill', ({messageParts}) => {
 		const [attacker, message, target, message2] = messageParts;
-		logger(prettyPrint(`^7${attacker || ''} ${message || ''} ${target || ''}${message2 || ''}`));
+		if (messageParts.length <= 0) {
+			return;
+		}
+
+		logger(prettyPrint('^7', attacker, ' ', message, ' ', target, message2));
 	});
 
 	serverEvents.on('message', ({player, message}) => {
-		logger(prettyPrint(`^2${player}^2: ${message}`));
+		logger(prettyPrint('^2', player, '^2: ', message));
 	});
 };

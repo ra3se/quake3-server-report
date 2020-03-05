@@ -7,7 +7,7 @@ const colorMap = [
 	chalk.yellow,		// 3: Yellow.
 	chalk.blue,			// 4: Blue.
 	chalk.cyan,			// 5: Cyan.
-	chalk.magenta,	    // 6: Pink.
+	chalk.magenta,		// 6: Pink.
 	chalk.white			// 7: White.
 ];
 
@@ -16,8 +16,12 @@ const colorMap = [
  * @param {string} line - line of text to convert
  * @returns {string} Line with ansi colors
  */
-module.exports = function (line) {
+module.exports = function () {
+	const args = [...arguments];
 	const colorMatch = /(\^\d{1})/g;
+	const line = args.reduce((previus, current) => {
+		return previus + (current ? current : '');
+	}, '');
 
 	return line.split(colorMatch)
 		.reverse().reduce((result, part) => {
