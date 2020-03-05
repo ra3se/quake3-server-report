@@ -4,7 +4,7 @@ const query = require('./src/query');
 const stdin = require('./src/stdin');
 
 const discord = require('./src/reporter/discord');
-const print = require('./src/reporter/print');
+const stdout = require('./src/reporter/stdout');
 const websocket = require('./src/reporter/websocket');
 
 const config = JSON.parse(
@@ -14,7 +14,7 @@ const config = JSON.parse(
 const serverEvents = stdin();
 
 // Print events to terminal
-print(serverEvents, console.log);
+stdout(serverEvents, console.log);
 
 // Start websocket server
 if (config.websocket) {

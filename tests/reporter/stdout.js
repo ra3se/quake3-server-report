@@ -1,7 +1,7 @@
 const o = require('ospec');
-const print = require('../../src/reporter/print');
+const stdout = require('../../src/reporter/stdout');
 
-o.spec('print', () => {
+o.spec('stdout reporter with colour support', () => {
 	let logger;
 	let serverEvents;
 
@@ -13,7 +13,7 @@ o.spec('print', () => {
 	o.beforeEach(() => {
 		logger = o.spy();
 		serverEvents = {on: o.spy()};
-		print(serverEvents, logger);
+		stdout(serverEvents, logger);
 	});
 
 	o('listen to events', () => {
