@@ -1,5 +1,5 @@
 {
-	"name": "quakelog",
+	"name": "quake3-server-report",
 	"version": "1.0.0",
 	"description": "",
 	"main": "index.js",
