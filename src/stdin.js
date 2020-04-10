@@ -1,7 +1,6 @@
 const EventEmitter = require('events');
 const es = require('event-stream');
 const serverEventHandler = require('./lib/server-event-handler');
-const state = require('./state');
 
 module.exports = function () {
 	const eventEmitter = new EventEmitter();
@@ -20,20 +19,6 @@ module.exports = function () {
 
 	process.stdin.on('end', () => {
 		process.stdout.write('end');
-	});
-
-	eventEmitter.on('connect', ({playerIndex, player}) => {
-		state.players[playerIndex] = player;
-	});
-
-	eventEmitter.on('disconnect', ({playerIndex}) => {
-		if (state.players[playerIndex]) {
-			delete state.players[playerIndex];
-		}
-	});
-
-	eventEmitter.on('shutdown', () => {
-		state.players = {};
 	});
 
 	return eventEmitter;

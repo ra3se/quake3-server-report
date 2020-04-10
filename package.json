@@ -5,6 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "node index.js",
+		"fake": "node script/fake-server.js | npm start",
 		"test": "nyc --reporter=html --reporter=text ospec",
 		"pretest": "yarn run lint",
 		"lint": "xo --fix && xo"
@@ -20,6 +21,7 @@
 		"ws": "^6.1.2"
 	},
 	"devDependencies": {
+		"faker": "^4.1.0",
 		"nyc": "^15.0.0",
 		"ospec": "^4.0.1",
 		"xo": "^0.27.2"

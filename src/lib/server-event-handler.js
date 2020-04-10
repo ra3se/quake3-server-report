@@ -12,11 +12,25 @@ function parseDataString(data) {
 	return result;
 }
 
+function messageParts({
+	attacker,
+	target,
+	attackerIndex,
+	targetIndex,
+	mod,
+	gender
+}) {
+	const [x, msg1, y, msg2] = message(mod, attackerIndex, targetIndex, gender);
+	const whoIsWho = index =>
+		index && (index === attackerIndex ? attacker : target);
+
+	return [whoIsWho(x), msg1, whoIsWho(y), msg2].filter(x => x);
+}
+
 const events = {
 	init: {
 		regExp: 'InitGame: \\\\(.+)',
-		parser: ([data]) =>
-			parseDataString(data)
+		parser: ([data]) => parseDataString(data)
 	},
 	shutdown: {
 		regExp: 'ShutdownGame:',
@@ -24,13 +38,11 @@ const events = {
 	},
 	connect: {
 		regExp: 'ClientConnect: (\\d+) (.+) \\((.+)\\)',
-		parser: ([playerIndex, player, ip]) =>
-			({playerIndex, player, ip})
+		parser: ([playerIndex, player, ip]) => ({playerIndex, player, ip})
 	},
 	disconnect: {
 		regExp: 'ClientDisconnect: (\\d+)',
-		parser: ([playerIndex]) =>
-			({playerIndex})
+		parser: ([playerIndex]) => ({playerIndex})
 	},
 	info: {
 		regExp: 'ClientUserinfoChanged: (\\d+) (.+)',
@@ -39,14 +51,38 @@ const events = {
 	},
 	kill: {
 		regExp: 'Kill: (\\d+) (\\d+) (\\d+) \\d+: (.+) killed (.+) by ([A-Z_]+)',
-		parser: ([attackerIndex, targetIndex, modIndex, attacker, target, mod]) =>
-			({attackerIndex, targetIndex, modIndex, attacker, target, mod,
-				messageParts: message(mod, attacker, target, GENDER_NEUTER)})
+		parser: ([
+			attackerIndex,
+			targetIndex,
+			modIndex,
+			attacker,
+			target,
+			mod
+		]) => ({
+			attackerIndex,
+			targetIndex,
+			modIndex,
+			attacker,
+			target,
+			mod,
+			messageParts: messageParts({
+				attackerIndex,
+				targetIndex,
+				modIndex,
+				attacker,
+				target,
+				mod,
+				gender: GENDER_NEUTER
+			})
+		})
 	},
 	message: {
 		regExp: 'say: (\\d+) \\d+: ([^:]+): (.+)',
-		parser: ([playerIndex, player, message]) =>
-			({playerIndex, player, message})
+		parser: ([playerIndex, player, message]) => ({
+			playerIndex,
+			player,
+			message
+		})
 	}
 };
 

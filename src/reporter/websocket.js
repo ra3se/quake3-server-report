@@ -5,7 +5,7 @@ const WebSocket = require('ws');
  * @param {EventEmitter} serverEvents - Incoming server events
  * @param {any} config - Websocket configuration
  */
-module.exports = (serverEvents, {port}) => {
+module.exports = (serverEvents, serverState, {port}) => {
 	const wss = new WebSocket.Server({port});
 
 	wss.broadcast = function (data) {
