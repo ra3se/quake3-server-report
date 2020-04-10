@@ -12,10 +12,8 @@ const config = JSON.parse(
 	fs.readFileSync(path.resolve(__dirname, 'config.json'), {encoding: 'utf8'}));
 
 // Gather events from stdin
-const serverEvents = stdin();
-
-// Keep track of server state
-const serverState = state(serverEvents);
+const serverState = state();
+const serverEvents = stdin(serverState);
 
 // Print events to terminal
 stdout(serverEvents, serverState, console.log);

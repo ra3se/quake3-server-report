@@ -50,9 +50,9 @@ module.exports = function (config, query, serverEvents) {
 		hookSend(`${prettyName(data.killer)} killed ${prettyName(data.victim)} by ${weapon}`);
 	});
 
-	serverEvents.on('init', data => {
-		hookSend(`Loaded new map ${data.mapname}`);
-	});
+	// ServerEvents.on('init', data => {
+	// 	hookSend(`Loaded new map ${data.mapname}`);
+	// });
 
 	const commands = {
 		status(msg) {
