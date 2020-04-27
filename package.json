@@ -16,8 +16,10 @@
 		"chalk": "^3.0.0",
 		"discord.js": "^11.4.2",
 		"event-stream": "^4.0.1",
-		"gamedig": "^2.0.20",
+		"knex": "^0.21.0",
+		"node-statsd": "^0.1.1",
 		"quake3-rcon": "^0.2.1",
+		"sqlite3": "^4.1.1",
 		"ws": "^6.1.2"
 	},
 	"devDependencies": {

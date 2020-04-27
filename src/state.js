@@ -3,7 +3,7 @@
 
 let state = {
 	players: [],
-	map: 'unknown',
+	mapname: 'unknown',
 	status: 'offline'
 };
 

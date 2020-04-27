@@ -2,7 +2,7 @@
 	"debug": true,
 	"server": {
 		"type": "quake3",
-		"host": "ra3.lorio.se",
+		"host": "ra3.se",
 		"port": 27960,
 		"rconPass": ""
 	},
@@ -15,6 +15,15 @@
 			"id": "",
 			"token": ""
 		}
+	},
+	"statsd": {
+		"host": "localhost"
+	},
+	"database": {
+		"client": "sqlite3",
+    "connection": {
+      "filename": "./dev.sqlite3.db"
+    }
 	},
 	"print": true
 }

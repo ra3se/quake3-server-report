@@ -17,6 +17,7 @@ module.exports = serverState => {
 
 			eventEmitter.emit(event, data);
 			eventEmitter.emit('any', {event, data});
+			eventEmitter.emit('raw', line);
 			return null;
 		}))
 		.pipe(process.stdout);

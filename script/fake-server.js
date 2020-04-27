@@ -112,6 +112,8 @@ rotation(() => {
 	players.forEach(player => triggerConnection(player));
 }, MAP_TIMEOUT);
 
+faker.seed(1337);
+
 rotation(() => {
 	if (players.length > 1 && serverInitialized) {
 		const attacker = getRandomFromArray(players);
