@@ -1,8 +1,6 @@
+const config = JSON.parse(
+	fs.readFileSync(path.resolve(__dirname, 'config.json'), {encoding: 'utf8'}));
+
 module.exports = {
-  development: {
-    client: 'sqlite3',
-    connection: {
-      filename: './dev.sqlite3.db'
-    }
-  },
+  development: config.database,
 };
