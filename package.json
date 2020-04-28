@@ -4,6 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
+		"prestart": "./node_modules/.bin/knex migrate:latest",
 		"start": "node index.js",
 		"fake": "node script/fake-server.js | npm start",
 		"test": "nyc --reporter=html --reporter=text ospec",
