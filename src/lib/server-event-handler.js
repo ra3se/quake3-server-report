@@ -1,6 +1,9 @@
 const message = require('./message');
 const {GENDER_NEUTER} = require('./constant/gender');
 
+/**
+ * @param data
+ */
 function parseDataString(data) {
 	const result = {};
 	data = data.split('\\');
@@ -12,6 +15,9 @@ function parseDataString(data) {
 	return result;
 }
 
+/**
+ *
+ */
 function messageParts({
 	attacker,
 	target,

@@ -20,12 +20,12 @@ stdout(serverEvents, serverState, console.log);
 
 // Start database reporter
 if (config.database) {
-	database(config.database, serverEvents, serverState)
+	database(config.database, serverEvents, serverState);
 }
 
 // Start statsd reporter
 if (config.statsd) {
-	statsd(config.statsd, serverEvents, serverState)
+	statsd(config.statsd, serverEvents, serverState);
 }
 
 // Start websocket server

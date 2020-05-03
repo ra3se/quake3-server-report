@@ -43,11 +43,12 @@ const {
 
 /**
  * Return message parts when player dies
+ *
  * @param {string} mod - Damage modifier
  * @param {int} attacker - Entity name who initiated damage
  * @param {int} target - Entity name who falls victim of damage
  * @param {string} gender - Entity gender
- * @returns {array} Array of message parts
+ * @returns {Array} Array of message parts
  */
 module.exports = (mod, attacker, target, gender) => {
 	let message = null;

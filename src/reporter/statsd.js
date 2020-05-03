@@ -1,5 +1,5 @@
-const StatsD = require("node-statsd");
-const stripColor = require("../lib/stripColors");
+const StatsD = require('node-statsd');
+const stripColor = require('../lib/strip-colors');
 
 /**
  * Use statsd to store player statistic
@@ -14,14 +14,14 @@ const stripColor = require("../lib/stripColors");
  * @param {EventEmitter} serverEvents - Incoming server events
  * @param {object} serverState - Current server state
  */
-module.exports = function(config, serverEvents, serverState) {
+module.exports = function (config, serverEvents, serverState) {
 	const client = new StatsD(config);
 
 	serverEvents.on(
-		"kill",
-		({ attackerIndex, targetIndex, attacker, target, mod }) => {
-			attacker = stripColor(attacker).replace(".", "");
-			target = stripColor(target).replace(".", "");
+		'kill',
+		({attackerIndex, targetIndex, attacker, target, mod}) => {
+			attacker = stripColor(attacker).replace('.', '');
+			target = stripColor(target).replace('.', '');
 
 			if (attackerIndex === targetIndex) {
 				client.increment(`${attacker}.suicide`);

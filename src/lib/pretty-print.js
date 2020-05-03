@@ -13,6 +13,7 @@ const colorMap = [
 
 /**
  * Apply quake like colors to line of text
+ *
  * @param {string} line - line of text to convert
  * @returns {string} Line with ansi colors
  */

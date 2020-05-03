@@ -7,15 +7,27 @@ const personsMale = ['Edison', 'Tesla'];
 const personsFemale = ['Curie', 'Meitner'];
 const personsNeutral = ['Electron', 'Protons'];
 
+/**
+ * @param arr
+ */
 function arrayToString(arr) {
 	return (arr || []).map(item => `"${item}"`).join(', ');
 }
 
+/**
+ * @param modifier
+ * @param personA
+ * @param personB
+ * @param gender
+ */
 function output(modifier, personA, personB, gender) {
 	console.log(`\t\to('${modifier} ${personA} ${personB} ${gender}', () =>
 \t\t\to(message('${modifier}', '${personA}', '${personB}', '${gender}')).deepEquals([${arrayToString(message(modifier, personA, personB, gender))}]));`);
 }
 
+/**
+ * @param modifier
+ */
 function theUltimateLoop(modifier) {
 	for (const gender in genders) {
 		if (Object.prototype.hasOwnProperty.call(genders, gender)) {

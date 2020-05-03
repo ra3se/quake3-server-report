@@ -2,7 +2,9 @@ const WebSocket = require('ws');
 
 /**
  * Responsible for sending and reciving websocket information.
+ *
  * @param {EventEmitter} serverEvents - Incoming server events
+ * @param serverState
  * @param {any} config - Websocket configuration
  */
 module.exports = (serverEvents, serverState, {port}) => {

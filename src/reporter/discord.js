@@ -6,15 +6,24 @@ const client = new Client();
 const commandPrefix = '!';
 const errorMessage = 'I must be sick, error, error, error...';
 
+/**
+ * @param msg
+ */
 function queryErrorResponse(msg) {
 	msg.channel.send('The server is currently offline :(');
 }
 
+/**
+ *
+ */
 function getRichEmbed() {
 	return new RichEmbed()
 		.setThumbnail('http://ra3.lorio.se/logo.png');
 }
 
+/**
+ * @param name
+ */
 function prettyName(name) {
 	return name.replace(/\^\d{1}/g, '');
 }
@@ -25,6 +34,9 @@ module.exports = function (config, query, serverEvents) {
 	const hookLastMessage = Date.now();
 	let hookTimeout;
 
+	/**
+	 * @param message
+	 */
 	function hookSend(message) {
 		if (message) {
 			hookMessage += `${hookMessage.length > 0 ? '\n' : ''}${message}`;
@@ -72,6 +84,8 @@ module.exports = function (config, query, serverEvents) {
 					.addField('Players', state.players.length)
 					.setURL('http://ra3.lorio.se');
 				msg.channel.send(embed);
+
+				return state;
 			});
 		},
 		stats(msg) {
@@ -88,6 +102,7 @@ module.exports = function (config, query, serverEvents) {
 				} else {
 					msg.channel.send('No one is currently playing :(');
 				}
+				return state
 			});
 		},
 		identify(msg) {

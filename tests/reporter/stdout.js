@@ -6,6 +6,9 @@ o.spec('stdout reporter with colour support', () => {
 	let serverEvents;
 	let serverState;
 
+	/**
+	 * @param eventName
+	 */
 	function findListener(eventName) {
 		const listener = serverEvents.on.calls.find(call => call.args[0] === eventName);
 		return listener && listener.args;
