@@ -15,6 +15,8 @@ const stripColor = require('../lib/strip-colors');
  * @param {object} serverState - Current server state
  */
 module.exports = function (config, serverEvents, serverState) {
+	console.log('statsd reporter ready');
+
 	const client = new StatsD(config);
 
 	serverEvents.on(

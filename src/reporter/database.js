@@ -6,6 +6,8 @@
  * @param {object} serverState - Current server state
  */
 module.exports = function (config, serverEvents) {
+	console.log('database reporter ready');
+
 	const knex = require('knex')(config);
 
 	const catchError = promise => promise.catch(console.error);

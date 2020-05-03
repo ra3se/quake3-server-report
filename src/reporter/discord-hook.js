@@ -2,7 +2,13 @@ const Discord = require('discord.js');
 const stripColor = require('../lib/strip-colors');
 
 module.exports = function (config, serverEvents) {
-	const hook = new Discord.WebhookClient(config.hook.id, config.hood.token);
+	if (!config.hook) {
+		return;
+	}
+
+	console.log('discord-hook reporter ready');
+
+	const hook = new Discord.WebhookClient(config.hook.id, config.hook.token);
 	let hookMessage = '';
 	const hookLastMessage = Date.now();
 	let hookTimeout;
@@ -38,6 +44,6 @@ module.exports = function (config, serverEvents) {
 			return;
 		}
 
-		hookSend(messageParts.reduce(stripColor));
+		hookSend(messageParts.reduce((result, part) => result + stripColor(part)));
 	});
 };

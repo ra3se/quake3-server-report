@@ -8,6 +8,8 @@ const prettyPrint = require('../lib/pretty-print');
  * @param {Function} logger - Function for printing to terminal
  */
 module.exports = function (serverEvents, serverState, logger) {
+	console.log('stdout reporter ready');
+
 	serverEvents.on('kill', ({messageParts}) => {
 		const [target, msg1, attacker, msg2] = messageParts;
 		if (messageParts.length <= 0) {
