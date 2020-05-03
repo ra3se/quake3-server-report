@@ -1,5 +1,6 @@
 {
 	"debug": true,
+	"input": "stdin",
 	"server": {
 		"type": "quake3",
 		"host": "ra3.se",

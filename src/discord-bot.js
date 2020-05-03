@@ -6,66 +6,13 @@ const client = new Client();
 const commandPrefix = '!';
 const errorMessage = 'I must be sick, error, error, error...';
 
-/**
- * @param msg
- */
-function queryErrorResponse(msg) {
-	msg.channel.send('The server is currently offline :(');
-}
+const queryErrorResponse = (msg) =>
+	msg.channel.send('The server is currently offline :(')
 
-/**
- *
- */
-function getRichEmbed() {
-	return new RichEmbed()
-		.setThumbnail('http://ra3.lorio.se/logo.png');
-}
+const getRichEmbed = () => new RichEmbed()
+	.setThumbnail('http://ra3.lorio.se/logo.png');
 
-/**
- * @param name
- */
-function prettyName(name) {
-	return name.replace(/\^\d{1}/g, '');
-}
-
-module.exports = function (config, query, serverEvents) {
-	const hook = new Discord.WebhookClient(config.hook.id, config.hood.token);
-	let hookMessage = '';
-	const hookLastMessage = Date.now();
-	let hookTimeout;
-
-	/**
-	 * @param message
-	 */
-	function hookSend(message) {
-		if (message) {
-			hookMessage += `${hookMessage.length > 0 ? '\n' : ''}${message}`;
-		}
-
-		if (hookTimeout) {
-			clearTimeout(hookTimeout);
-		}
-
-		if ((Date.now() - hookLastMessage) > 5e3) {
-			hook.send(hookMessage);
-		} else {
-			hookTimeout = setTimeout(hookSend, 1e3);
-		}
-	}
-
-	serverEvents.on('connect', data => {
-		hookSend(`${prettyName(data.player)} joined the server.`);
-	});
-
-	serverEvents.on('kill', data => {
-		const weapon = data.weapon.replace(/_SPLASH|_DISCHARGE/, '').toLowerCase();
-		hookSend(`${prettyName(data.killer)} killed ${prettyName(data.victim)} by ${weapon}`);
-	});
-
-	// ServerEvents.on('init', data => {
-	// 	hookSend(`Loaded new map ${data.mapname}`);
-	// });
-
+module.exports = function (config, query) {
 	const commands = {
 		status(msg) {
 			const embed = getRichEmbed()

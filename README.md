@@ -9,7 +9,7 @@ Features:
 * Parse Quake 3 log messages
 * Report server events to multiple procotols and services
   * Discord
-  * Databases (Checkout knex.js for supportet databases)
+  * Databases (Checkout knex.js for supported databases)
   * websocket
   * stdout with color support
   * statsd
