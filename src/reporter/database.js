@@ -30,7 +30,7 @@ module.exports = function (config, serverEvents) {
 			)
 	);
 
-	serverEvents.on('raw', line =>
-		catchError(knex('event_raw').insert({line}))
-	);
+	// serverEvents.on('raw', line =>
+	// 	catchError(knex('event_raw').insert({line}))
+	// );
 };
