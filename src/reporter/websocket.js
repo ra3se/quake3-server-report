@@ -1,4 +1,5 @@
 const WebSocket = require('ws');
+const _ = require('lodash');
 
 /**
  * Responsible for sending and reciving websocket information.
@@ -13,7 +14,7 @@ module.exports = (serverEvents, serverState, {port}) => {
 	wss.broadcast = function (data) {
 		wss.clients.forEach(client => {
 			if (client.readyState === WebSocket.OPEN) {
-				client.send(JSON.stringify(data));
+				client.send(JSON.stringify(_.omit(data, ['ip'])));
 			}
 		});
 	};

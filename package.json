@@ -23,6 +23,7 @@
 		"eslint-plugin-node": "^11.1.0",
 		"husky": "^4.2.5",
 		"knex": "^0.21.0",
+		"lodash": "^4.17.15",
 		"node-statsd": "^0.1.1",
 		"quake3-rcon": "^0.2.1",
 		"sqlite3": "^4.1.1",
