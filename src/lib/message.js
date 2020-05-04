@@ -45,8 +45,8 @@ const {
  * Return message parts when player dies
  *
  * @param {string} mod - Damage modifier
- * @param {int} attacker - Entity name who initiated damage
- * @param {int} target - Entity name who falls victim of damage
+ * @param {number} attacker - Entity name who initiated damage
+ * @param {number} target - Entity name who falls victim of damage
  * @param {string} gender - Entity gender
  * @returns {Array} Array of message parts
  */

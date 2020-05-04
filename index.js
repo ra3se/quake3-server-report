@@ -1,8 +1,12 @@
+const fs = require('fs');
+const path = require('path');
+
+const config = Object.freeze(JSON.parse(
+	fs.readFileSync(path.resolve(__dirname, 'config.json'), {encoding: 'utf8'})));
+
 const state = require('./src/state');
 const inputHandler = require('./src/lib/input-handler');
 const serverEventEmitter = require('./src/lib/server-event-emitter');
-
-const config = require('./src/lib/config-parser');
 
 // Inputs
 const stdin = require('./src/input/stdin');
@@ -38,7 +42,7 @@ if (config.statsd) {
 
 // Start websocket server
 if (config.websocket) {
-	websocket(serverEventEmitter, serverState, config.websocket);
+	websocket(config.websocket, serverEventEmitter);
 }
 
 if (config.discord) {

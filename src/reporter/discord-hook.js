@@ -1,15 +1,22 @@
-const Discord = require('discord.js');
-const stripColor = require('../lib/strip-colors');
+const Discord = require("discord.js");
+const stripColor = require("../lib/strip-colors");
 
-module.exports = function (config, serverEvents) {
+/**
+ * Hook documentation:
+ * https://birdie0.github.io/discord-webhooks-guide/discord_webhook.html
+ *
+ * @param config
+ * @param serverEvents
+ */
+module.exports = function(config, serverEvents) {
 	if (!config.hook) {
 		return;
 	}
 
-	console.log('discord-hook reporter ready');
+	console.log("discord-hook reporter ready");
 
 	const hook = new Discord.WebhookClient(config.hook.id, config.hook.token);
-	let hookMessage = '';
+	let hookMessage = "";
 	const hookLastMessage = Date.now();
 	let hookTimeout;
 
@@ -20,30 +27,36 @@ module.exports = function (config, serverEvents) {
 	 */
 	function hookSend(message) {
 		if (message) {
-			hookMessage += `${hookMessage.length > 0 ? '\n' : ''}${message}`;
+			hookMessage += `${hookMessage.length > 0 ? "\n" : ""}${message}`;
 		}
 
 		if (hookTimeout) {
 			clearTimeout(hookTimeout);
 		}
 
-		if ((Date.now() - hookLastMessage) > 5e3) {
+		if (Date.now() - hookLastMessage > 5e3) {
 			hook.send(hookMessage);
-			hookMessage = '';
+			hookMessage = "";
 		} else {
 			hookTimeout = setTimeout(hookSend, 1e3);
 		}
 	}
 
-	serverEvents.on('connect', ({player}) => {
+	serverEvents.on("connect", ({ player }) => {
 		hookSend(`${stripColor(player)} joined the server.`);
 	});
 
-	serverEvents.on('kill', ({messageParts}) => {
+	serverEvents.on("kill", ({ messageParts }) => {
+		const [target, msg1, attacker, msg2] = messageParts;
 		if (messageParts.length <= 0) {
 			return;
 		}
 
-		hookSend(messageParts.reduce((result, part) => result + stripColor(part)));
+		hookSend(
+			[target, " ", msg1, " ", attacker, msg2].reduce(
+				(result, part) => `${result}${part ? stripColor(part) : ""}`,
+				""
+			)
+		);
 	});
 };

@@ -4,11 +4,11 @@ const _ = require('lodash');
 /**
  * Responsible for sending and reciving websocket information.
  *
+ * @param {object} config - websocket configuration
  * @param {EventEmitter} serverEvents - Incoming server events
  * @param serverState
- * @param {any} config - Websocket configuration
  */
-module.exports = (serverEvents, serverState, {port}) => {
+module.exports = ({port}, serverEvents) => {
 	const wss = new WebSocket.Server({port});
 
 	wss.broadcast = function (data) {
