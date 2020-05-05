@@ -1,12 +1,15 @@
-const Discord = require("discord.js");
+// const Discord = require("discord.js");
+
 const stripColor = require("../lib/strip-colors");
+const discordHookClient = require("../lib/discord-hook-client");
+const discordKillSummary = require("../lib/discord/kill-summary");
 
 /**
  * Hook documentation:
  * https://birdie0.github.io/discord-webhooks-guide/discord_webhook.html
  *
- * @param config
- * @param serverEvents
+ * @param {object} config
+ * @param {EventEmitter} serverEvents
  */
 module.exports = function(config, serverEvents) {
 	if (!config.hook) {
@@ -15,7 +18,7 @@ module.exports = function(config, serverEvents) {
 
 	console.log("discord-hook reporter ready");
 
-	const hook = new Discord.WebhookClient(config.hook.id, config.hook.token);
+	const hook = () => discordHookClient(config.hook.id, config.hook.token);
 	let hookMessage = "";
 	const hookLastMessage = Date.now();
 	let hookTimeout;
@@ -35,7 +38,7 @@ module.exports = function(config, serverEvents) {
 		}
 
 		if (Date.now() - hookLastMessage > 5e3) {
-			hook.send(hookMessage);
+			hook().send(hookMessage);
 			hookMessage = "";
 		} else {
 			hookTimeout = setTimeout(hookSend, 1e3);
@@ -46,17 +49,24 @@ module.exports = function(config, serverEvents) {
 		hookSend(`${stripColor(player)} joined the server.`);
 	});
 
-	serverEvents.on("kill", ({ messageParts }) => {
-		const [target, msg1, attacker, msg2] = messageParts;
-		if (messageParts.length <= 0) {
-			return;
-		}
+	serverEvents.on("kill_summary", kills =>
+		hook()
+			.content("A game has just been played!")
+			.embed(discordKillSummary(kills))
+			.send()
+	);
 
-		hookSend(
-			[target, " ", msg1, " ", attacker, msg2].reduce(
-				(result, part) => `${result}${part ? stripColor(part) : ""}`,
-				""
-			)
-		);
-	});
+	// This is very spammy
+	// serverEvents.on("kill", ({ messageParts }) => {
+	// 	const [target, msg1, attacker, msg2] = messageParts;
+	// 	if (messageParts.length <= 0) {
+	// 		return;
+	// 	}
+	// 	hookSend(
+	// 		[target, " ", msg1, " ", attacker, msg2].reduce(
+	// 			(result, part) => `${result}${part ? stripColor(part) : ""}`,
+	// 			""
+	// 		)
+	// 	);
+	// });
 };

@@ -4,7 +4,7 @@
 let state = {
 	players: [],
 	mapname: 'unknown',
-	status: 'offline'
+	status: 'offline',
 };
 
 module.exports = () => {

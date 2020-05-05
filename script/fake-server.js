@@ -2,7 +2,7 @@
 
 const faker = require('faker');
 const MINUTE = 60 * 1e3;
-const MAP_TIMEOUT = Number(MINUTE);
+const MAP_TIMEOUT = Number(MINUTE/2);
 const WEAPONS = require('../src/lib/constant/weapon-dmg');
 
 const getRandomArbitrary = (min, max) => Math.floor((Math.random() * (max - min)) + min);
