@@ -1,4 +1,4 @@
-const message = require('./message');
+const killMessageParts = require('./kill-message-parts');
 const {GENDER_NEUTER} = require('./constant/gender');
 
 /**
@@ -26,7 +26,7 @@ function messageParts({
 	mod,
 	gender
 }) {
-	const [x, msg1, y, msg2] = message(mod, attackerIndex, targetIndex, gender);
+	const [x, msg1, y, msg2] = killMessageParts(mod, attackerIndex, targetIndex, gender);
 	const whoIsWho = index =>
 		index && (index === attackerIndex ? attacker : target);
 
@@ -56,11 +56,12 @@ const events = {
 			Object.assign({playerIndex}, parseDataString(data))
 	},
 	kill: {
-		regExp: 'Kill: (\\d+) (\\d+) (\\d+) \\d+: (.+) killed (.+) by ([A-Z_]+)',
+		regExp: 'Kill: (\\d+) (\\d+) (\\d+) (\\d+): (.+) killed (.+) by ([A-Z_]+)',
 		parser: ([
 			attackerIndex,
 			targetIndex,
 			modIndex,
+			arenaIndex,
 			attacker,
 			target,
 			mod
@@ -68,27 +69,45 @@ const events = {
 			attackerIndex,
 			targetIndex,
 			modIndex,
+			arenaIndex,
 			attacker,
 			target,
 			mod,
 			messageParts: messageParts({
-				attackerIndex,
-				targetIndex,
-				modIndex,
 				attacker,
 				target,
+				attackerIndex,
+				targetIndex,
 				mod,
 				gender: GENDER_NEUTER
 			})
 		})
 	},
+	round: {
+		regExp: 'Running round (\\d+) of (\\d+)',
+		parser: ([roundIndex, roundTotal]) => ({ roundIndex, roundTotal })
+	},
 	message: {
-		regExp: 'say: (\\d+) \\d+: ([^:]+): (.+)',
-		parser: ([playerIndex, player, message]) => ({
+		regExp: 'say: (\\d+) (\\d+): ([^:]+): (.+)',
+		parser: ([playerIndex, arenaIndex, player, message]) => ({
 			playerIndex,
+			arenaIndex,
 			player,
 			message
 		})
+	},
+	team_message: {
+		regExp: 'sayteam: (\\d+) (\\d+): ([^:]+): (.+)',
+		parser: ([playerIndex, arenaIndex, player, message]) => ({
+			playerIndex,
+			arenaIndex,
+			player,
+			message
+		})
+	},
+	broadcast: {
+		regExp: 'broadcast: print "([^"]+)"',
+		parser: ([message]) => ({message: message.replace("\\n", "")}),
 	}
 };
 

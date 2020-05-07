@@ -4,7 +4,7 @@ const stripColor = require('../lib/strip-colors');
 /**
  * Use statsd to store player statistic
  * https://github.com/statsd/statsd
- *
+ * 
  * Structure for stats:
  * playerName.suicide
  * attackerPlayerName.kill.targetPlayerName.mapName.weaponName
@@ -13,9 +13,10 @@ const stripColor = require('../lib/strip-colors');
  * @param {object} config - Statsd configuration
  * @param {EventEmitter} serverEvents - Incoming server events
  * @param {object} serverState - Current server state
+ * @param logger
  */
-module.exports = function (config, serverEvents, serverState) {
-	console.log('statsd reporter ready');
+module.exports = function (config, serverEvents, serverState, logger) {
+	logger('statsd reporter ready');
 
 	const client = new StatsD(config);
 

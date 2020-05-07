@@ -6,10 +6,13 @@ const _ = require('lodash');
  *
  * @param {object} config - websocket configuration
  * @param {EventEmitter} serverEvents - Incoming server events
+ * @param logger
  * @param serverState
  */
-module.exports = ({port}, serverEvents) => {
+module.exports = ({port}, serverEvents, logger) => {
 	const wss = new WebSocket.Server({port});
+
+	logger("Websocket listening on", port);
 
 	wss.broadcast = function (data) {
 		wss.clients.forEach(client => {

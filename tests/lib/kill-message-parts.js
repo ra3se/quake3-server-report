@@ -1,5 +1,5 @@
 const o = require('ospec');
-const message = require('../../src/lib/message');
+const message = require('../../src/lib/kill-message-parts');
 
 o.spec('message', () => {
 	o.spec('world damage', () => {

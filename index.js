@@ -21,6 +21,8 @@ const websocket = require('./src/reporter/websocket');
 
 // Gather events from stdin
 const serverState = state();
+const logger = console.log;
+
 stdin(inputHandler(serverState));
 
 if (config.udp) {
@@ -28,25 +30,25 @@ if (config.udp) {
 }
 
 // Print events to terminal
-stdout(serverEventEmitter, serverState, console.log);
+stdout(serverEventEmitter, logger);
 
 // Start database reporter
 if (config.database) {
-	database(config.database, serverEventEmitter, serverState);
+	database(config.database, serverEventEmitter, logger);
 }
 
 // Start statsd reporter
 if (config.statsd) {
-	statsd(config.statsd, serverEventEmitter, serverState);
+	statsd(config.statsd, serverEventEmitter, serverState, logger);
 }
 
 // Start websocket server
 if (config.websocket) {
-	websocket(config.websocket, serverEventEmitter);
+	websocket(config.websocket, serverEventEmitter, logger);
 }
 
 if (config.discord) {
-	discordHook(config.discord, serverEventEmitter);
+	discordHook(config.discord, serverEventEmitter, logger);
 }
 
 // Start discord client

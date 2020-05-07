@@ -33,6 +33,8 @@ module.exports = (id, token) => ({
 	 * @param {string} embed.description - description
 	 * @param {string} embed.url - url
 	 * @param {string} embed.color - color
+	 * @param {object} embed.image - image
+	 * @param {string} embed.image.url - image url
 	 * @param {object} embed.author - author
 	 * @param {string} embed.author.name - autor name
 	 * @param {string} embed.author.url - author url
@@ -84,6 +86,8 @@ module.exports = (id, token) => ({
 		if (_.isEmpty(this.data)) {
 			throw new Error("No data for discord webhook")
 		}
+
+		console.log(this.data);
 
 		return needle(
 			"post",

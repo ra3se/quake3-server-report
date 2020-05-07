@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
 
-const WORLD = '<world>';
+const { WORLD } = require('./constant/world');
 
 const {
 	MOD_SUICIDE,

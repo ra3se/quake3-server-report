@@ -13,4 +13,3 @@ Features:
   * websocket
   * stdout with color support
   * statsd
-

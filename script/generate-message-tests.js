@@ -1,4 +1,4 @@
-const message = require('../src/lib/message');
+const message = require('../src/lib/kill-message-parts');
 const weaponDmg = require('../src/lib/constant/weapon-dmg');
 const worldDmg = require('../src/lib/constant/world-dmg');
 const genders = require('../src/lib/constant/gender');

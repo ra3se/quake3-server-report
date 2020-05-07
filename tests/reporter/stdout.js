@@ -4,7 +4,6 @@ const stdout = require('../../src/reporter/stdout');
 o.spec('stdout reporter with colour support', () => {
 	let logger;
 	let serverEvents;
-	let serverState;
 
 	/**
 	 * @param {string} eventName
@@ -17,11 +16,11 @@ o.spec('stdout reporter with colour support', () => {
 	o.beforeEach(() => {
 		logger = o.spy();
 		serverEvents = {on: o.spy()};
-		stdout(serverEvents, serverState, logger);
+		stdout(serverEvents, logger);
 	});
 
 	o('listen to events', () => {
-		o(serverEvents.on.callCount).equals(4);
+		o(serverEvents.on.callCount).equals(5);
 
 		['kill', 'message'].forEach(eventName => {
 			const [name, callback] = findListener(eventName);

@@ -100,6 +100,7 @@ o.spec('kill', () => {
 			attackerIndex: '1',
 			targetIndex: '0',
 			modIndex: '10',
+			arenaIndex: '4',
 			attacker: 'Shizu',
 			target: '^1K^7orroz',
 			mod: 'MOD_RAILGUN',
@@ -115,6 +116,7 @@ o.spec('kill', () => {
 			attackerIndex: '1022',
 			targetIndex: '0',
 			modIndex: '19',
+			arenaIndex: '2',
 			attacker: '<world>',
 			target: '^1K^7orroz',
 			mod: 'MOD_FALLING',
@@ -127,5 +129,5 @@ o('message', () => {
 	const {event, data} = serverEventHandler('say: 0 2: Ketch: nostalgi');
 
 	o(event).equals('message');
-	o(data).deepEquals({playerIndex: '0', player: 'Ketch', message: 'nostalgi'});
+	o(data).deepEquals({playerIndex: '0', arenaIndex: '2', player: 'Ketch', message: 'nostalgi'});
 });
