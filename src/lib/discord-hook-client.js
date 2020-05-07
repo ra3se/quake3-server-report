@@ -87,8 +87,6 @@ module.exports = (id, token) => ({
 			throw new Error("No data for discord webhook")
 		}
 
-		console.log(this.data);
-
 		return needle(
 			"post",
 			`https://discordapp.com/api/webhooks/${id}/${token}`,
