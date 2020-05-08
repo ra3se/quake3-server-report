@@ -30,7 +30,6 @@ module.exports = function(config, serverEvents, logger) {
 	});
 
 	serverEvents.on("summary", state => {
-		console.log(state);
 		return hook()
 			.content(
 				[

@@ -4,7 +4,7 @@ const stripColor = require('../lib/strip-colors');
 /**
  * Use statsd to store player statistic
  * https://github.com/statsd/statsd
- * 
+ *
  * Structure for stats:
  * playerName.suicide
  * attackerPlayerName.kill.targetPlayerName.mapName.weaponName
@@ -29,7 +29,7 @@ module.exports = function (config, serverEvents, serverState, logger) {
 			if (attackerIndex === targetIndex) {
 				client.increment(`${attacker}.suicide`);
 			} else {
-				client.increment(`${attacker}.${target}.${mod}.${serverState.mapname}`);
+				client.increment(`${attacker}.${target}.${mod}.${serverState.get('mapname')}`);
 			}
 		}
 	);

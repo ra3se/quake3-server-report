@@ -1,74 +1,55 @@
 // TODO: create sessions for every init event and store data for each session?
 // TODO: remove gamedig dependency
-const crypto = require('crypto');
-const { WORLD } = require('./lib/constant/world');
+const _ = require("lodash");
+const crypto = require("crypto");
+const { WORLD } = require("./lib/constant/world");
 
-const hash = (string) => crypto.createHash('md5').update(string).digest('hex');
-
-const findPlayer = (playerIndex, ip) => {
-	if (playerIndex == null) {
-		return;
-	}
-
-	let player = state.players.find(({index}) => playerIndex === index);
-
-	if (ip && !player) {
-		player = {
-			id: hash(ip),
-			index: playerIndex,
-			name: player,
-			connected: true,
-			kills: 0,
-			deaths: 0,
-			score: 0,
-		};
-		state.players.push(player);
-	}
-
-	return player;
-}
-
-let state = {
-	activePlayers: 0, // Every active player currently online
-	players: [], // Every player that joined this session
-	mapname: 'unknown',
-	status: 'offline',
-};
+const hash = string =>
+	crypto
+		.createHash("md5")
+		.update(string)
+		.digest("hex");
 
 module.exports = () => {
+	const state = {};
+	let data = {};
+
 	const eventHandler = {
-		shutdown: () => {
-			state.activePlayers = 0;
-			state.players = [];
-		},
-		connect: ({playerIndex, player: name, ip}) => {
-			state.activePlayers += 1;
-			const player = findPlayer(playerIndex, ip);
+		connect: ({ playerIndex, player: name, ip }) => {
+			data.activePlayers += 1;
+			const player = state.findPlayer(playerIndex, ip);
 			player.name = name;
 		},
-		disconnect: ({playerIndex}) => {
-			state.activePlayers -= 1;
-			const player = findPlayer(playerIndex);
+		disconnect: ({ playerIndex }) => {
+			data.activePlayers -= 1;
+			const player = state.findPlayer(playerIndex);
 			player.index = null;
 			player.connected = false;
 		},
-		info: ({playerIndex, n: name }) => {
-			const player = findPlayer(playerIndex); // Sometimes happens before "connect"
-			if (player) {
-				player.name = name;
+		info: clientInfo => {
+			const player = state.findPlayer(clientInfo.playerIndex);
+			if (player && !_.isEmpty(clientInfo)) {
+				if (clientInfo.n) {
+					player.name = clientInfo.n;
+				}
+				Object.assign(player, clientInfo);
 			}
 		},
-		init: data => {
-			state = Object.assign(state, data);
-			state.status = "online";
+		init: initData => {
+			state.reset();
+			data = Object.assign(data, initData);
+			data.status = "online"; // TODO: Use rcon for this
 		},
-		kill: ({attacker, attackerIndex, targetIndex}) => {
-			const attackerPlayer = findPlayer(attackerIndex);
-			const targetPlayer = findPlayer(targetIndex);
+		kill: ({ attacker, attackerIndex, targetIndex }) => {
+			const attackerPlayer = state.findPlayer(attackerIndex);
+			const targetPlayer = state.findPlayer(targetIndex);
 
-			if (attacker === WORLD || attackerIndex === targetIndex && targetPlayer) {
+			if (
+				attacker === WORLD ||
+				(attackerIndex === targetIndex && targetPlayer)
+			) {
 				targetPlayer.score -= 1;
-				targetPlayer.deaths += 1
+				targetPlayer.deaths += 1;
 			} else if (attackerPlayer && targetPlayer) {
 				attackerPlayer.kills += 1;
 				attackerPlayer.score += 1;
@@ -77,11 +58,46 @@ module.exports = () => {
 		}
 	};
 
+	state.reset = () => {
+		data = {
+			activePlayers: 0, // Every active player currently online
+			players: [], // Every player that joined this session
+			mapname: "unknown",
+			status: "offline"
+		};
+		return state;
+	};
+
+	state.get = (path, defaultValue) =>
+		_.cloneDeep(path ? _.get(data, defaultValue) : data) || defaultValue;
+
 	state.update = (event, data) =>
 		eventHandler[event] && eventHandler[event](data);
 
-	state.getPlayerByIndex = index =>
-		state.players.find(player => player.index === index);
+	state.findPlayer = (playerIndex, ip) => {
+		if (playerIndex == null) {
+			return;
+		}
+
+		let player = data.players.find(({ index }) => playerIndex === index);
+
+		if (ip && !player) {
+			player = {
+				id: hash(ip),
+				index: playerIndex,
+				name: player,
+				connected: true,
+				kills: 0,
+				deaths: 0,
+				score: 0
+			};
+			data.players.push(player);
+		}
+
+		return player;
+	};
+
+	state.reset();
 
 	return state;
 };

@@ -24,7 +24,7 @@ module.exports = ({port}, serverEvents, logger) => {
 
 	wss.on('connection', (ws, req) => {
 		const ip = req.connection.remoteAddress;
-		console.log('websocket client connected', ip);
+		logger('websocket client connected', ip);
 	});
 
 	serverEvents.on('any', wss.broadcast);

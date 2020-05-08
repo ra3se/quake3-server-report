@@ -1,4 +1,3 @@
-const _ = require("lodash");
 const eventEmitter = require("./server-event-emitter");
 const serverEventHandler = require("./server-event-handler");
 
@@ -6,8 +5,8 @@ module.exports = serverState => row => {
 	const { event, data } = serverEventHandler(row);
 
 	// Trigger summary event before shutdown
-	if (event === "shutdown") {
-		const summary = _.cloneDeep(serverState);
+	if (event === "init") {
+		const summary = serverState.get();
 		// Summarize to unique nicknames
 		summary.players = summary.players
 			.reduce((result, player) => {
