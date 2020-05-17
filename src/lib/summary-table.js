@@ -39,7 +39,7 @@ module.exports = (state, colorFormatter, style) =>
 				colorFormatter(name),
 				kills,
 				deaths,
-				(kills/(deaths > 0 ? deaths : 1)).toPrecision(1),
+				deaths > 0 ? (kills/deaths).toPrecision(1) : 0,
 				score
 			]),
 		style
