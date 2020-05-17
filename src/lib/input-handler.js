@@ -4,8 +4,8 @@ const serverEventHandler = require("./server-event-handler");
 module.exports = serverState => row => {
 	const { event, data } = serverEventHandler(row);
 
-	// Trigger summary event before shutdown
-	if (event === "init") {
+	// Trigger summary event before certain events
+	if (event === "init" || event === "shutdown") {
 		const summary = serverState.get();
 		// Summarize to unique nicknames
 		summary.players = summary.players
@@ -23,9 +23,11 @@ module.exports = serverState => row => {
 			.filter(player => player.score || player.death || player.kills)
 			.sort((a, b) => b.score - a.score);
 
-		if (summary.players.length > 4) {
+		if (summary.players.length >= 2) {
 			eventEmitter.emit("summary", summary);
 		}
+
+		serverState.reset();
 	}
 
 	// Update state before events are emitted.
