@@ -24,6 +24,10 @@ module.exports = function(serverEvents, logger) {
 		logger(prettyPrint("^7", player, "^7:^2 ", message))
 	);
 
+	serverEvents.on("round", ({roundIndex, roundTotal}) =>
+		logger(prettyPrint("^7", `Round ${roundIndex} of ${roundTotal}`))
+	)
+
 	serverEvents.on("broadcast", ({ message }) => logger(prettyPrint(message)));
 
 	serverEvents.on("summary", state =>

@@ -10,6 +10,8 @@ const hash = string =>
 		.update(string)
 		.digest("hex");
 
+const incOnPath = (object, path, amount) => _.set(object, path, _.get(object, path, 0) + amount)
+
 module.exports = () => {
 	const state = {};
 	let data = {};
@@ -40,30 +42,56 @@ module.exports = () => {
 			data = Object.assign(data, initData);
 			data.status = "online"; // TODO: Use rcon for this
 		},
+		round: ({ roundIndex }) => {
+			console.log('Round', roundIndex);
+			if (roundIndex === "1") {
+				state.resetPlayersStats();
+			}
+			_.set(state,'round', roundIndex)
+		},
 		kill: ({ attacker, attackerIndex, targetIndex }) => {
 			const attackerPlayer = state.findPlayer(attackerIndex);
 			const targetPlayer = state.findPlayer(targetIndex);
 
-			if (
-				attacker === WORLD ||
-				(attackerIndex === targetIndex && targetPlayer)
-			) {
-				targetPlayer.score -= 1;
-				targetPlayer.deaths += 1;
-			} else if (attackerPlayer && targetPlayer) {
-				attackerPlayer.kills += 1;
-				attackerPlayer.score += 1;
-				targetPlayer.deaths += 1;
+			// TODO: enable something like this for more advance statistics.
+			// if (state.round && state.round !== 0 && attackerPlayer && targetPlayer) {
+			// 	incOnPath(attackerPlayer, ['arena', arenaIndex, `team_${attackerPlayer.t}`, 'round', state.round, 'target', targetPlayer.name, 'weapon', mod], 1)
+			// 	incOnPath(targetPlayer, ['arena', arenaIndex, `team_${targetPlayer.t}`, 'round', state.round, 'attacker', attackerPlayer.name, 'weapon', mod], 1)
+			// }
+
+			if (state.round != null && state.round !== "0") {
+				if (
+					attacker === WORLD ||
+					(attackerIndex === targetIndex && targetPlayer)
+				) {
+					incOnPath(targetPlayer, ['score'], -1);
+					incOnPath(targetPlayer, ['deaths'], 1);
+				} else if (attackerPlayer && targetPlayer) {
+					incOnPath(attackerPlayer, ['kills'], 1);
+					incOnPath(attackerPlayer, ['score'], 1);
+					incOnPath(targetPlayer, ['deaths'], 1);
+				}
 			}
 		}
 	};
+
+	const resetPlayerStats = player => Object.assign(player, {
+		kills: 0,
+		deaths: 0,
+		score: 0
+	});
+
+	state.resetPlayersStats = () => {
+		data.players = (data.players || []).map(resetPlayerStats)
+	}
 
 	state.reset = () => {
 		data = {
 			activePlayers: 0, // Every active player currently online
 			players: [], // Every player that joined this session
 			mapname: "unknown",
-			status: "offline"
+			status: "offline",
+			round: null
 		};
 		return state;
 	};
@@ -82,15 +110,12 @@ module.exports = () => {
 		let player = data.players.find(({ index }) => playerIndex === index);
 
 		if (ip && !player) {
-			player = {
+			player = resetPlayerStats({
 				id: hash(ip),
 				index: playerIndex,
 				name: player,
 				connected: true,
-				kills: 0,
-				deaths: 0,
-				score: 0
-			};
+			});
 			data.players.push(player);
 		}
 

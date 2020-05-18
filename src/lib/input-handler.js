@@ -1,11 +1,11 @@
 const eventEmitter = require("./server-event-emitter");
-const serverEventHandler = require("./server-event-handler");
+const serverEventParser = require("./server-event-parser");
 
 module.exports = serverState => row => {
-	const { event, data } = serverEventHandler(row);
+	const { event, data } = serverEventParser(row);
 
 	// Trigger summary event before certain events
-	if (event === "init" || event === "shutdown") {
+	if (event === "init" || event === "shutdown" || (event === "round" && data.roundIndex === "22")) {
 		const summary = serverState.get();
 		// Summarize to unique nicknames
 		summary.players = summary.players
@@ -27,7 +27,7 @@ module.exports = serverState => row => {
 			eventEmitter.emit("summary", summary);
 		}
 
-		serverState.reset();
+		serverState.resetPlayersStats();
 	}
 
 	// Update state before events are emitted.

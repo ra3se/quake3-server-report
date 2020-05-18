@@ -116,7 +116,7 @@ const lineParsers = [];
 for (const event in events) {
 	if (Object.prototype.hasOwnProperty.call(events, event)) {
 		const {regExp, parser} = events[event];
-		const evtRegExp = new RegExp(regExp);
+		const evtRegExp = new RegExp(`^${regExp}`);
 		lineParsers.push(line => {
 			if (evtRegExp.test(line)) {
 				return {event, data: parser(line.match(evtRegExp).slice(1))};
