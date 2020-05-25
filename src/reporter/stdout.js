@@ -35,7 +35,7 @@ module.exports = function(serverEvents, logger) {
 	);
 
 	serverEvents.on("unknown", ({line}) => {
-		logger(prettyPrint("unknown: ", "^3", line))
+		logger(prettyPrint("^3", line))
 	})
 
 	serverEvents.on("init", ({ mapname }) =>
