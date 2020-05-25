@@ -112,11 +112,12 @@ const events = {
 };
 
 const lineParsers = [];
+const syslog = /<\d+>([a-zA-Z]+)\s\d{1,2} \d{2}:\d{2}:\d{2}\s([a-zA-Z0-9]+)\[\d+\]:\s/
 
 for (const event in events) {
 	if (Object.prototype.hasOwnProperty.call(events, event)) {
 		const {regExp, parser} = events[event];
-		const evtRegExp = new RegExp(`${regExp}`);
+		const evtRegExp = new RegExp(`^${regExp}`);
 		lineParsers.push(line => {
 			if (evtRegExp.test(line)) {
 				return {event, data: parser(line.match(evtRegExp).slice(1))};
@@ -126,6 +127,7 @@ for (const event in events) {
 }
 
 module.exports = line => {
+	line = line.replace(syslog, "");
 	for (const lineParser of lineParsers) {
 		const result = lineParser(line);
 		if (result) {
