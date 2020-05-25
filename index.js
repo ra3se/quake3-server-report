@@ -50,9 +50,3 @@ if (config.websocket) {
 if (config.discord) {
 	discordHook(config.discord, serverEventEmitter, logger);
 }
-
-// Start discord client
-// if (config.discord && !config.debug) {
-// 	discord(config.discord,
-// 		query(config.server), serverEvents, serverState);
-// }

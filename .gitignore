@@ -63,3 +63,4 @@ typings/
 
 # development database
 dev*.db
+.db-journal
