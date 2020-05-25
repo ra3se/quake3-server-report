@@ -34,6 +34,10 @@ module.exports = function(serverEvents, logger) {
 		logger(summaryTable(state, prettyPrint, {border: "gray", head: "red"}))
 	);
 
+	serverEvents.on("unknown", ({line}) => {
+		logger(prettyPrint("unknown: ", "^3", line))
+	})
+
 	serverEvents.on("init", ({ mapname }) =>
 		logger(prettyPrint("^7", "Map changed to ", mapname))
 	);

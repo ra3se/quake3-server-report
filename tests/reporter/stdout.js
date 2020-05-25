@@ -20,7 +20,7 @@ o.spec('stdout reporter with colour support', () => {
 	});
 
 	o('listen to events', () => {
-		o(serverEvents.on.callCount).equals(6);
+		o(serverEvents.on.callCount).equals(7);
 
 		['kill', 'message'].forEach(eventName => {
 			const [name, callback] = findListener(eventName);
