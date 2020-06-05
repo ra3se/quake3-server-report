@@ -4,17 +4,11 @@ module.exports = hook => {
 	const hookLastMessage = Date.now();
 	let hookTimeout;
 
-	const historyShift = () => {
-		setTimeout(() => {
-			if(pastMessages.length > 0) {
-				pastMessages.shift();
-			}
-
-			historyShift();
-		}, 5e3);
-	};
-
-	historyShift();
+	setInterval(() => {
+		if(pastMessages.length > 0) {
+			pastMessages.shift();
+		}
+	}, 5e3);
 
 	/**
 	 * Only send messages to discord every 5 seconds
