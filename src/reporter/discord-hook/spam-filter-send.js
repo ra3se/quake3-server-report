@@ -5,10 +5,8 @@ module.exports = hook => {
 	let hookTimeout;
 
 	setInterval(() => {
-		if(pastMessages.length > 0) {
-			pastMessages.shift();
-		}
-	}, 5e3);
+		pastMessages.shift();
+	}, 10e3);
 
 	/**
 	 * Only send messages to discord every 5 seconds
