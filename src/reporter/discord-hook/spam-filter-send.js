@@ -4,6 +4,10 @@ module.exports = hook => {
 	const hookLastMessage = Date.now();
 	let hookTimeout;
 
+	setInterval(() => {
+		pastMessages.shift();
+	}, 10e3);
+
 	/**
 	 * Only send messages to discord every 5 seconds
 	 *
@@ -23,6 +27,7 @@ module.exports = hook => {
 			// Remember the last 10 messages sent
 			pastMessages = pastMessages.concat(hookMessage.split('\n')).slice(-10);
 			hookMessage = "";
+			hookLastMessage = Date.now();
 		} else {
 			hookTimeout = setTimeout(awaitHookSend, 1e3);
 		}
