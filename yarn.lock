@@ -2514,10 +2514,10 @@ qs@~6.5.2:
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
   integrity sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==
 
-quake3-rcon@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/quake3-rcon/-/quake3-rcon-0.2.1.tgz#639c4e27d9ca879d9f4ab22a475302572f508a87"
-  integrity sha1-Y5xOJ9nKh52fSrIqR1MCVy9Qioc=
+quake3-rcon@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/quake3-rcon/-/quake3-rcon-1.0.2.tgz#96a65866dc1644593ad843308b9064498b71061b"
+  integrity sha512-bK6d+PV1WaqPRi8vcy/7Cdx1bWAfDWaMXsSwMfG8oVKvJWnEp3HEcsLab/kZ8Pbmt+v4x8yZhjY10IVjB7dVsA==
 
 rc@^1.2.7:
   version "1.2.8"
