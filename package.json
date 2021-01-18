@@ -24,7 +24,7 @@
 		"eslint-plugin-node": "^11.1.0",
 		"event-stream": "^4.0.1",
 		"husky": "^4.2.5",
-		"knex": "^0.21.0",
+		"knex": "^0.21.16",
 		"lodash": "^4.17.15",
 		"needle": "^2.4.1",
 		"node-statsd": "^0.1.1",
