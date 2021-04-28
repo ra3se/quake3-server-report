@@ -1,0 +1,64 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: eslint-plugin-jsdoc
+    versions:
+    - 31.4.0
+    - 31.6.0
+    - 31.6.1
+    - 32.0.0
+    - 32.0.1
+    - 32.0.2
+    - 32.1.0
+    - 32.1.1
+    - 32.2.0
+    - 32.3.0
+    - 32.3.1
+    - 32.3.2
+  - dependency-name: date-fns
+    versions:
+    - 2.16.1
+    - 2.17.0
+    - 2.18.0
+    - 2.19.0
+    - 2.20.0
+    - 2.20.1
+    - 2.20.2
+    - 2.20.3
+  - dependency-name: y18n
+    versions:
+    - 4.0.1
+    - 4.0.2
+  - dependency-name: knex
+    versions:
+    - 0.21.16
+    - 0.21.17
+    - 0.21.18
+    - 0.21.19
+    - 0.95.0
+    - 0.95.1
+    - 0.95.2
+    - 0.95.3
+  - dependency-name: ws
+    versions:
+    - 7.4.2
+    - 7.4.3
+    - 7.4.4
+  - dependency-name: nock
+    versions:
+    - 13.0.10
+    - 13.0.6
+    - 13.0.7
+    - 13.0.8
+    - 13.0.9
+  - dependency-name: sqlite3
+    versions:
+    - 5.0.1
+  - dependency-name: lodash
+    versions:
+    - 4.17.20
